@@ -9,7 +9,7 @@
 
 // //   const getCropRecommendation = async () => {
 // //     try {
-// //       const response = await axios.get(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`, {
+// //       const response = await axios.get(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent`, {
 // //         params: {
 // //           location: location,
 // //           soilType: soilType,
@@ -88,7 +88,7 @@
 //   const [recommendation, setRecommendation] = useState("");
 
 //   // API URL and API key
-//   const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+//   const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent";
 //   const API_KEY = "AIzaSyDBCt8tHrtb0ov4LOm1Xi32LuV_arFytFg"; // 🔴 Replace with actual API key
 
 //   const getCropRecommendation = async () => {
@@ -178,20 +178,20 @@ const Guidance = () => {
   const [recommendation, setRecommendation] = useState("");
 
   // API URL and API key
-  const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
-  const API_KEY = "AIzaSyDBCt8tHrtb0ov4LOm1Xi32LuV_arFytFg"; // 🔴 Replace with actual API key
+  const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent";
+  const API_KEY = "AIzaSyDBb6Y24UZ2VNs6gcrIRIe3im6pjSegiaU";
 
   const getCropRecommendation = async () => {
     try {
       const message = `Location: ${location}, Soil Type: ${soilType}, Season: ${season} and give output in normal text form, don't add any markdown formats , remove** or any other unnecessary formats`;
-      
+
       const response = await axios.post(
         API_URL,
         {
-          contents: [{ role: "user", parts: [{ text: message }] } ]
+          contents: [{ role: "user", parts: [{ text: message }] }],
         },
         {
-          params: { key: API_KEY }
+          params: { key: API_KEY },
         }
       );
 
@@ -200,7 +200,10 @@ const Guidance = () => {
       setRecommendation(recommendationText);
     } catch (error) {
       console.error("Error fetching crop recommendation:", error);
-      setRecommendation("Failed to fetch recommendations.");
+      const msg = error.response?.status === 429
+        ? "Too many requests. Please wait a moment and try again."
+        : "Failed to fetch recommendations.";
+      setRecommendation(msg);
     }
   };
 

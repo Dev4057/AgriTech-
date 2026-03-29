@@ -13,12 +13,12 @@ const Chatbot = () => {
 
     try {
       const res = await axios.post(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent",
         {
           contents: [{ role: "user", parts: [{ text: message }] }],
         },
         {
-          params: { key: "AIzaSyDBCt8tHrtb0ov4LOm1Xi32LuV_arFytFg" }, // 🔴 Replace with your actual API key
+          params: { key: "AIzaSyDBb6Y24UZ2VNs6gcrIRIe3im6pjSegiaU" },
         }
       );
 
@@ -29,7 +29,9 @@ const Chatbot = () => {
 
       setResponses((prev) => [...prev, botResponse]); // Add bot response
     } catch (error) {
-      setResponses((prev) => [...prev, { role: "bot", content: "Error fetching response!" }]);
+      console.error("Full error:", error.response?.data);
+      const errorDetail = error.response?.data?.error?.message || error.message || "Unknown error";
+      setResponses((prev) => [...prev, { role: "bot", content: `Error: ${errorDetail}` }]);
     }
 
     setMessage(""); // Clear input field

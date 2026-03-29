@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
-const API_KEY = "AIzaSyDBCt8tHrtb0ov4LOm1Xi32LuV_arFytFg"; // 🔴 Replace with actual API key
+const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent";
+const API_KEY = "AIzaSyDBb6Y24UZ2VNs6gcrIRIe3im6pjSegiaU";
 
 export const sendChatMessage = async (message) => {
   try {
